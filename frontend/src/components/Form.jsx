@@ -2,8 +2,9 @@ import {useState} from "react"
 import api from "../api"
 import { useNavigate } from "react-router-dom"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
+import "../styles/Form.css" 
 
-function From({route, method}){
+function Form({route, method}){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
@@ -16,7 +17,7 @@ function From({route, method}){
         e.preventDefault();
 
         try{
-            const res = await api.post(route, {password})
+            const res = await api.post(route, { username, password })
             if(method === "login"){
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
@@ -32,7 +33,8 @@ function From({route, method}){
         }
     };
 
-    return <form onSubmit={handleSubmit} className="form-container">
+    return (
+    <form onSubmit={handleSubmit} className="form-container">
         <h1>{name}</h1>
         <input
             className="form-input"
@@ -52,4 +54,7 @@ function From({route, method}){
             {name}
         </button>
     </form>
+    );
 }
+
+export default Form
